@@ -51,7 +51,7 @@ $PAGE->set_url('/block/mse_classes/information.php', array(
 
 if ($contextid) {
     $context = context::instance_by_id($contextid, MUST_EXIST);
-    if ($context->contextlevel != CONTEXT_COURSE) {
+    if ($context->contextlevel !== CONTEXT_COURSE) {
         print_error('invalidcontext');
     }
     $course = $DB->get_record('course', array('id' => $context->instanceid), '*', MUST_EXIST);
@@ -183,15 +183,15 @@ if (!empty($groupid)) {
     if ($canaccessallgroups) {
         // User can access all groups, let them filter by whatever was selected.
         $filtersapplied[] = USER_FILTER_GROUP . ':' . $groupid;
-    } else if (!$filterwassubmitted && $course->groupmode == VISIBLEGROUPS) {
+    } elseif (!$filterwassubmitted && $course->groupmode == VISIBLEGROUPS) {
         // If we are in a course with visible groups and the user has not submitted anything and does not have
         // access to all groups, then set a default group.
         $filtersapplied[] = USER_FILTER_GROUP . ':' . $groupid;
-    } else if (!$hasgroupfilter && $course->groupmode != VISIBLEGROUPS) {
+    } elseif (!$hasgroupfilter && $course->groupmode != VISIBLEGROUPS) {
         // The user can't access all groups and has not set a group filter in a course where the groups are not visible
         // then apply a default group filter.
         $filtersapplied[] = USER_FILTER_GROUP . ':' . $groupid;
-    } else if (!$hasgroupfilter) { // No need for the group id to be set.
+    } elseif (!$hasgroupfilter) { // No need for the group id to be set.
         $groupid = false;
     }
 }
@@ -228,8 +228,17 @@ echo '<div class="userlist">';
 foreach (array_unique($filtersapplied) as $filterix => $filter) {
     $baseurl->param('unified-filters[' . $filterix . ']', $filter);
 }
-$participanttable = new \core_user\participants_table($course->id, $groupid, $lastaccess, $roleid, $enrolid, $status,
-    $searchkeywords, $bulkoperations, $selectall);
+$participanttable = new \core_user\participants_table(
+    $course->id,
+    $groupid,
+    $lastaccess,
+    $roleid,
+    $enrolid,
+    $status,
+    $searchkeywords,
+    $bulkoperations,
+    $selectall
+);
 $participanttable->define_baseurl($baseurl);
 
 // Do this so we can get the total number of rows.
@@ -254,11 +263,13 @@ $perpageurl->remove_params('perpage');
 if ($perpage == SHOW_ALL_PAGE_SIZE && $participanttable->totalrows > DEFAULT_PAGE_SIZE) {
     $perpageurl->param('perpage', DEFAULT_PAGE_SIZE);
     echo $OUTPUT->container(html_writer::link($perpageurl, get_string('showperpage', '', DEFAULT_PAGE_SIZE)), array(), 'showall');
-
-} else if ($participanttable->get_page_size() < $participanttable->totalrows) {
+} elseif ($participanttable->get_page_size() < $participanttable->totalrows) {
     $perpageurl->param('perpage', SHOW_ALL_PAGE_SIZE);
-    echo $OUTPUT->container(html_writer::link($perpageurl, get_string('showall', '', $participanttable->totalrows)),
-        array(), 'showall');
+    echo $OUTPUT->container(
+        html_writer::link($perpageurl, get_string('showall', '', $participanttable->totalrows)),
+        array(),
+        'showall'
+    );
 }
 
 if ($bulkoperations) {
@@ -339,8 +350,11 @@ if ($bulkoperations) {
         }
     }
 
-    $label = html_writer::tag('label', get_string("withselectedusers"),
-        ['for' => 'formactionid', 'class' => 'col-form-label d-inline']);
+    $label = html_writer::tag(
+        'label',
+        get_string("withselectedusers"),
+        ['for' => 'formactionid', 'class' => 'col-form-label d-inline']
+    );
     $select = html_writer::select($displaylist, 'formaction', '', ['' => 'choosedots'], ['id' => 'formactionid']);
     echo html_writer::tag('div', $label . $select, ['class' => 'ml-2']);
 
@@ -366,7 +380,7 @@ foreach ($enrolbuttons as $enrolbutton) {
 }
 echo '</div>';
 
-if ($newcourse == 1) {
+if ($newcourse === 1) {
     $str = get_string('proceedtocourse', 'enrol');
     // The margin is to make it line up with the enrol users button when they are both on the same line.
     $classes = 'my-1';

@@ -27,18 +27,22 @@
     /**
      * @property  title Title of the plugin
      * @property stdClass content
+     * @property  config
      */
-    class block_mse_classes extends block_list {
+    class block_mse_classes extends block_list
+    {
 
         /**
          * @var stdClass
          */
 
-        public function init() {
+        public function init()
+        {
             $this->title = get_string('pluginname', 'block_mse_classes');
         }
 
-        public function get_content() {
+        public function get_content()
+        {
             global $USER;
 
             if ($this->content !== null) {
@@ -82,7 +86,8 @@
             return $this->content;
         }
 
-        function get_content2() {
+        public function get_content2()
+        {
             global $CFG, $OUTPUT;
 
             if ($this->content !== null) {
@@ -126,7 +131,8 @@
         }
 
         // my moodle can only have SITEID and it's redundant here, so take it away
-        public function applicable_formats() {
+        public function applicable_formats()
+        {
             return array('all' => false,
                 'site' => true,
                 'site-index' => true,
@@ -136,15 +142,18 @@
                 'mod-quiz' => false);
         }
 
-        public function instance_allow_multiple() {
+        public function instance_allow_multiple()
+        {
             return true;
         }
 
-        function has_config() {
+        public function has_config()
+        {
             return true;
         }
 
-        public function cron() {
+        public function cron()
+        {
             mtrace("mse_classe cron script running");
 
             // do something

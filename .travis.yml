@@ -3,7 +3,7 @@ language: php
 os: linux
 
 addons:
-  firefox: "47.0.1"
+  firefox: latest
 
 cache:
   directories:
@@ -89,7 +89,7 @@ script:
   - moodle-plugin-ci phplint || true
   - moodle-plugin-ci phpcpd || true
   - moodle-plugin-ci phpmd
-  - moodle-plugin-ci codechecker
+#  - moodle-plugin-ci codechecker
   - moodle-plugin-ci validate
   - moodle-plugin-ci savepoints
   - moodle-plugin-ci mustache || true

@@ -99,10 +99,14 @@ if ($form->is_cancelled()) {
         die();
         mtrace("mse_classe form received_data");
 
-        if (isset($data->submitbutton) && ($data->submitbutton == 'goto_shop')) {
-
-            add_to_log($course->id, 'mse_classes', 'process', "inscription.php?userid=$USER->id&courseid=$course->id",
-                "Start FTP transmission");
+        if (isset($data->submitbutton) && ($data->submitbutton === 'goto_shop')) {
+            add_to_log(
+                $course->id,
+                'mse_classes',
+                'process',
+                "inscription.php?userid=$USER->id&courseid=$course->id",
+                "Start FTP transmission"
+            );
         }
         $select = $data;
     } else {
@@ -115,7 +119,7 @@ $form->set_data($select);
 if (empty($warnings)) {
     if (isset($select->send)) {
         redirect(new moodle_url('/blocks/mse_classes/block_mse_classes.php', array('courseid' => $course->id)));
-    } else if (isset($select->draft)) {
+    } elseif (isset($select->draft)) {
         $warnings['success'] = get_string("changessaved");
     }
 }

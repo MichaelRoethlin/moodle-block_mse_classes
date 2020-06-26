@@ -26,6 +26,9 @@
 global $CFG;
 require_once($CFG->libdir . '/formslib.php');
 
+/**
+ * @method is_cancelled()
+ */
 class inscription_form extends moodleform {
 
     public function definition() {
