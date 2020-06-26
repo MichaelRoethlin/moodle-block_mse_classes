@@ -42,7 +42,7 @@ $selectall    = optional_param('selectall', false, PARAM_BOOL); // When renderin
 $roleid       = optional_param('roleid', 0, PARAM_INT);
 $groupparam   = optional_param('group', 0, PARAM_INT);
 
-$PAGE->set_url('/user/index.php', array(
+$PAGE->set_url('/block/mse_classes/information.php', array(
     'page' => $page,
     'perpage' => $perpage,
     'contextid' => $contextid,
@@ -213,7 +213,7 @@ foreach ($enrolbuttons as $enrolbutton) {
 echo html_writer::div($enrolbuttonsout, 'float-right');
 
 // Should use this variable so that we don't break stuff every time a variable is added or changed.
-$baseurl = new moodle_url('/user/index.php', array(
+$baseurl = new moodle_url('/blocks/mse_classes/information.php', array(
     'contextid' => $context->id,
     'id' => $course->id,
     'perpage' => $perpage));
